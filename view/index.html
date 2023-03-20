@@ -2,42 +2,65 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <!-- <meta http-equiv="Content-Type" content="text/html" charset="utf-8"> -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>URL Shortner</title>
 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> -->
+       
+        <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/public/css/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"> -->
 
     </head>
-    <body >
+    <body>
         <div class="container my-5">
             <div class="row justify-content-center">
-                <h1">
+                <h1>
                     <div class="display-5 my-2 text-center">URL Shortener</div>
                 </h1>
             </div>
 
             <div class="row justify-content-center">
                 <div class="col-6 my-5">
-                    <form action="/" method="post">
+                    <form action="/short" method="post">
                         <label for="URL" class="form-label text-muted">Enter the URL you want to be shortened:</label>
                         <div class="mb-3 input-group">
                             <span class="input-group-text">
-                                <i class="bi bi-link"></i>
+                                <i class="bi bi-link">
+                                    <!-- <i>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-link" viewBox="0 0 16 16">
+                                        <path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z"/>
+                                        <path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z"/>
+                                      </svg> -->
+                                </i>
                             </span>
                             <input type="url" name="url" id="url" class="form-control" required="required" placeholder="https://google.com">
                         </div>
-                        <input type="hidden" name="token" value="CSRF_TOKEN" access="false" id="token">
+                        <!-- type="url" -->
+                        <!-- <input type="hidden" name="token" value="{{.Token}}" access="false" id="token"> -->
                         <div class="text-center">
+                            <input type="hidden" name="token" value="{{.Token}}" access="false" id="token">
                             <button type="submit" class="btn btn-primary" name="submit" id="submit" value="submit">submit</button>
                         </div>
                     </form>
                 </div>
             </div>
+
+            <div class="row justify-content-center">
+                <div class="col-6 my-3">
+                    <span class="jumbotron justify-content-center"> {{.ShortLink}} </span>
+                </div>
+            </div>
         </div>
+
         
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script> -->
+        <script src="/public/bootstrap.bundle.min.js"></script>
+
 
     </body>
 </html>
