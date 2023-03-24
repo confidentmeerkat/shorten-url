@@ -19,7 +19,7 @@ const (
 )
 
 type DB interface {
-	CreateShort(url string) error
+	CreateShort(url string, length int) (string, error)
 	GetShort(url string) (string, error)
 	GetOrigin(short string) (string, error)
 	GetAll() ([]types.Url, error)
