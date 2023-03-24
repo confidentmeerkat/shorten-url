@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"urlshort/types"
 
 	_ "github.com/lib/pq"
 )
@@ -16,6 +17,13 @@ const (
 	dbName   string = "shortener"
 	sslMode  string = "disable"
 )
+
+type DB interface {
+	CreateShort(url string) error
+	GetShort(url string) (string, error)
+	GetOrigin(short string) (string, error)
+	GetAll() ([]types.Url, error)
+}
 
 func psqlInfo() string {
 	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
