@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 
 	_ "github.com/lib/pq"
@@ -25,13 +26,13 @@ func psqlInfo() string {
 func Start() error {
 	db, err := sql.Open("postgres", psqlInfo())
 	if err != nil {
-		return err
+		return errors.New("failed to open the database")
 	}
 	defer db.Close()
 
 	err = db.Ping()
 	if err != nil {
-		return err
+		return errors.New("can not ping the database")
 	}
 
 	return nil
