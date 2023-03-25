@@ -1,15 +1,12 @@
 package controller
 
 import (
-	"errors"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"net/url"
 	"urlshort/database/postgres"
-
-	"github.com/lib/pq"
 )
 
 // var SHORTLINK map[string]string
@@ -44,18 +41,12 @@ func Short(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Println("connected")
 
-		short, err := db.CreateShort(u, 4)
+		short, err := db.GetShort(u)
 		if err != nil {
-			var e *pq.Error
-
-			if errors.As(err, &e) {
-				switch e.Code {
-				case "23505":
-					fmt.Println("WOW duplicate!")
-				}
+			short, err = db.CreateShort(u, 4)
+			if err != nil {
+				log.Fatal(err)
 			}
-
-			log.Fatal(err)
 		}
 
 		// template.HTMLEscape(w, []byte(r.FormValue("url")))

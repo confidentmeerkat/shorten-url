@@ -55,7 +55,20 @@ func (p *psql) CreateShort(url string, length int) (string, error) {
 }
 
 func (p *psql) GetShort(url string) (string, error) {
-	return "", nil
+	var short string
+
+	query := "SELECT short FROM urls WHERE origin=$1"
+	row := p.db.QueryRow(query, url)
+	err := row.Scan(&short)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return "", errors.New("there are no short link for the given url")
+		}
+
+		return "", err
+	}
+
+	return short, nil
 }
 
 func (p *psql) GetOrigin(short string) (string, error) {
