@@ -2,23 +2,14 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"strings"
 	"urlshort/controller"
-	"urlshort/database"
 )
 
 func main() {
-	err := database.Start()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Successfully connected to database!")
-
 	http.HandleFunc("/", controller.Handler)
 	http.HandleFunc("/short", controller.Short)
 
