@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 	"urlshort/controller"
+	"urlshort/controller/api"
 )
 
 func main() {
@@ -15,6 +16,8 @@ func main() {
 
 	// http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 	http.HandleFunc("/public/", serveResource)
+
+	http.HandleFunc("/api/all", api.GetAll)
 
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
