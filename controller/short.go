@@ -37,6 +37,8 @@ func Short(w http.ResponseWriter, r *http.Request) {
 
 		db, err := postgres.New()
 		if err != nil {
+			w.WriteHeader(503)
+
 			log.Fatal(err)
 		}
 		fmt.Println("connected")
@@ -45,6 +47,8 @@ func Short(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			short, err = db.CreateShort(u, 4)
 			if err != nil {
+				w.WriteHeader(503)
+
 				log.Fatal(err)
 			}
 		}
