@@ -1,14 +1,17 @@
 package controller
 
 import (
+	"errors"
 	"fmt"
 	"html/template"
-	"math/rand"
+	"log"
 	"net/http"
-	"time"
+	"urlshort/database/postgres"
+
+	"github.com/lib/pq"
 )
 
-var SHORTLINK map[string]string
+// var SHORTLINK map[string]string
 
 func Short(w http.ResponseWriter, r *http.Request) {
 	token := r.FormValue("token")
@@ -24,11 +27,31 @@ func Short(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("cookie: ", cToken.Value)
 	if cToken.Value == token {
 		url := template.HTMLEscapeString(r.FormValue("url"))
-		sl := shortLink(8)
+		// sl := shortLink(8)
 		fmt.Println(url)
 
-		SHORTLINK := make(map[string]string)
-		SHORTLINK[url] = sl
+		// SHORTLINK := make(map[string]string)
+		// SHORTLINK[url] = sl
+
+		db, err := postgres.New()
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println("connected")
+
+		short, err := db.CreateShort(url, 4)
+		if err != nil {
+			var e *pq.Error
+
+			if errors.As(err, &e) {
+				switch e.Code {
+				case "23505":
+					fmt.Println("WOW duplicate!")
+				}
+			}
+
+			log.Fatal(err)
+		}
 
 		// template.HTMLEscape(w, []byte(r.FormValue("url")))
 		// template.HTMLEscape(w, []byte(url))
@@ -38,8 +61,7 @@ func Short(w http.ResponseWriter, r *http.Request) {
 		var cookie http.Cookie
 
 		cookie.Name = "shortLink"
-		cookie.Value = SHORTLINK[url]
-
+		cookie.Value = short
 		// w.Header().Add("Set-Cookie", cookie.String())
 		fmt.Println("right token")
 		http.SetCookie(w, &cookie)
@@ -48,21 +70,5 @@ func Short(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("wrong token")
 		http.Redirect(w, r, "/", http.StatusFound)
 	}
-
-}
-
-func shortLink(length int) string {
-	charset := "abcdefghijklmnopqrstuvwxyz" +
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789"
-
-	sid := rand.New(rand.NewSource(time.Now().UnixNano()))
-
-	link := make([]byte, length)
-
-	for k := range link {
-		link[k] = charset[sid.Intn(len(charset))]
-	}
-
-	return string(link)
 
 }
