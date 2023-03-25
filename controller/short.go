@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"net/url"
 	"urlshort/database/postgres"
 
 	"github.com/lib/pq"
@@ -26,9 +27,13 @@ func Short(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("token: ", token)
 	fmt.Println("cookie: ", cToken.Value)
 	if cToken.Value == token {
-		url := template.HTMLEscapeString(r.FormValue("url"))
+		u := template.HTMLEscapeString(r.FormValue("url"))
+		_, err := url.ParseRequestURI(u)
+		if err != nil {
+			log.Fatal(err)
+		}
 		// sl := shortLink(8)
-		fmt.Println(url)
+		fmt.Println(u)
 
 		// SHORTLINK := make(map[string]string)
 		// SHORTLINK[url] = sl
@@ -39,7 +44,7 @@ func Short(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Println("connected")
 
-		short, err := db.CreateShort(url, 4)
+		short, err := db.CreateShort(u, 4)
 		if err != nil {
 			var e *pq.Error
 
