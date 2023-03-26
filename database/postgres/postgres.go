@@ -3,14 +3,11 @@ package postgres
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"urlshort/database"
 
 	_ "github.com/lib/pq"
 )
-
-type psql struct {
-	db *sql.DB
-}
 
 const (
 	host     string = "localhost"
@@ -20,6 +17,10 @@ const (
 	dbName   string = "shortener"
 	sslMode  string = "disable"
 )
+
+type psql struct {
+	db *sql.DB
+}
 
 func New() (database.DB, error) {
 	db, err := sql.Open("postgres", psqlInfo())
@@ -33,4 +34,10 @@ func New() (database.DB, error) {
 	}
 
 	return &psql{db: db}, nil
+}
+
+func psqlInfo() string {
+	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
+		host, port, user, password, dbName, sslMode,
+	)
 }

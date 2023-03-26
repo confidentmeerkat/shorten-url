@@ -3,7 +3,6 @@ package postgres
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"math/rand"
 	"time"
 	"urlshort/types"
@@ -72,12 +71,6 @@ func (p *psql) GetAll() ([]types.Url, error) {
 	}
 
 	return url, nil
-}
-
-func psqlInfo() string {
-	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
-		host, port, user, password, dbName, sslMode,
-	)
 }
 
 func shorter(length int) string {
