@@ -10,7 +10,7 @@ import (
 )
 
 func (p *psql) CreateShort(url string, length int) (string, error) {
-	short := newShort(length)
+	short := shorter(length)
 
 	insertQuery := "INSERT INTO urls(origin, short) VALUES($1, $2)"
 
@@ -80,7 +80,7 @@ func psqlInfo() string {
 	)
 }
 
-func newShort(length int) string {
+func shorter(length int) string {
 	charset := "abcdefghijklmnopqrstuvwxyz" +
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789"
 
