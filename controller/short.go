@@ -49,13 +49,11 @@ func Short(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 
-			var cookie http.Cookie
-
-			cookie.Name = "shortLink"
-			cookie.Value = short
-
 			fmt.Println("right token")
-			http.SetCookie(w, &cookie)
+			http.SetCookie(w, &http.Cookie{
+				Name:  "shortLink",
+				Value: short,
+			})
 			http.Redirect(w, r, "/", http.StatusFound)
 		} else {
 			fmt.Println("wrong token")
