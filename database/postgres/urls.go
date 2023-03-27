@@ -3,6 +3,7 @@ package postgres
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"math/rand"
 	"time"
 	"urlshort/types"
@@ -41,7 +42,20 @@ func (p *psql) GetShort(url string) (string, error) {
 }
 
 func (p *psql) GetOrigin(short string) (string, error) {
-	return "", nil
+	var res string
+
+	originQuery := "SELECT origin FROM urls WHERE short=$1"
+	row := p.db.QueryRow(originQuery, short)
+	err := row.Scan(&res)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return "", fmt.Errorf("no origin url for: %s", short)
+		}
+
+		return "", err
+	}
+
+	return res, nil
 }
 
 func (p *psql) GetAll() ([]types.Url, error) {

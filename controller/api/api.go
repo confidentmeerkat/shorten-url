@@ -22,6 +22,7 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 	}
 
 	origin := r.URL.Query().Get("origin")
+	short := r.URL.Query().Get("short")
 
 	if origin != "" {
 		shortUrl, err := db.GetShort(origin)
@@ -37,6 +38,22 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 		}
 
 		res := types.Url{Origin: origin, Short: shortUrl}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(res)
+	} else if short != "" {
+		originURL, err := db.GetOrigin(short)
+		if err != nil {
+			customErr := types.Error{Err: "not found"}
+
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(customErr)
+
+			return
+		}
+
+		res := types.Url{Origin: originURL, Short: short}
+
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(res)
 	}
