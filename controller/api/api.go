@@ -56,6 +56,11 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(res)
+	} else {
+		err := types.Error{Err: "no query"}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(err)
 	}
 }
 
