@@ -4,18 +4,19 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"os"
 	"urlshort/database"
 
 	_ "github.com/lib/pq"
 )
 
-const (
-	host     string = "localhost"
-	port     string = "5432"
-	user     string = "postgres"
-	password string = "toor"
-	dbName   string = "shortener"
-	sslMode  string = "disable"
+var (
+	host     string = os.Getenv("POSTGRES_HOST")
+	port     string = os.Getenv("POSTGRES_PORT")
+	user     string = os.Getenv("POSTGRES_USER")
+	password string = os.Getenv("POSTGRES_PASSWORD")
+	dbName   string = os.Getenv("POSTGRES_DB_NAME")
+	sslMode  string = os.Getenv("POSTGRES_SSL_MODE")
 )
 
 type psql struct {
