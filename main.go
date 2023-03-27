@@ -14,7 +14,7 @@ func main() {
 	http.HandleFunc("/", handlers.Handler)
 	http.HandleFunc("/short", handlers.Short)
 
-	http.HandleFunc("/public/", serveResource)
+	http.HandleFunc("/assets/", serveResource)
 
 	http.HandleFunc("/api/get", api.GetShort)
 	http.HandleFunc("/api/all", api.GetAll)
