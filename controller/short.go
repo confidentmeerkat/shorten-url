@@ -9,14 +9,15 @@ import (
 	"urlshort/database/postgres"
 )
 
-// var SHORTLINK map[string]string
-
 func Short(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		token := r.FormValue("token")
-		cToken, err := r.Cookie("token")
+
+		cToken, err := r.Cookie("csrfToken")
 		if err != nil {
-			w.WriteHeader(http.StatusFound)
+			http.Redirect(w, r, "/", http.StatusFound)
+
+			return
 		}
 
 		fmt.Println("token: ", token)

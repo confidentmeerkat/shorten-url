@@ -27,7 +27,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		token := csrfToken()
 
 		http.SetCookie(w, &http.Cookie{
-			Name:  "token",
+			Name:  "csrfToken",
 			Value: token,
 		})
 
