@@ -99,6 +99,7 @@ func Short(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
+		w.Write([]byte("Method is not allowed"))
 	}
 
 }

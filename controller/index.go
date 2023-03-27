@@ -62,6 +62,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		t.Execute(w, l)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
+		w.Write([]byte("Method is not allowed"))
 	}
 }
 
