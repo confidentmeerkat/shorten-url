@@ -53,7 +53,7 @@
             <div class="row justify-content-center">
                 {{if .ShortLink}}
                 <div class="col-6 my-3">
-                  <p>Your shorted link is: <span class="jumbotron justify-content-center"> {{.ShortLink}} </span> </p>
+                  <p>Your short link is: <span class="jumbotron justify-content-center"> <a href="{{.ShortLink}}" title="this is your short link" target="_blank"> {{.ShortLink}} </a> </span> </p>
                 </div>
                 {{end}}
 
