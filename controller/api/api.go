@@ -9,7 +9,7 @@ import (
 )
 
 func GetShort(w http.ResponseWriter, r *http.Request) {
-	url := r.URL.Query().Get("url")
+	url := r.URL.Query().Get("origin")
 
 	db, err := postgres.New()
 	if err != nil {
