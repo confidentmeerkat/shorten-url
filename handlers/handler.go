@@ -12,6 +12,7 @@ func Handle() {
 
 	http.HandleFunc("/assets/", web.ServeResource)
 
+	http.HandleFunc("/api/create", api.CreateShort)
 	http.HandleFunc("/api/get", api.GetShort)
 	http.HandleFunc("/api/all", api.GetAll)
 }
