@@ -18,7 +18,7 @@ type link struct {
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		t, err := template.ParseFiles("view/index.html")
+		t, err := template.ParseFiles("web/index.html")
 		if err != nil {
 			fmt.Printf("can't parse file")
 
