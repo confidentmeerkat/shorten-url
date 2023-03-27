@@ -7,7 +7,9 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
+	"urlshort/database/postgres"
 )
 
 type link struct {
@@ -16,7 +18,7 @@ type link struct {
 	Status    string
 }
 
-func Handler(w http.ResponseWriter, r *http.Request) {
+func handler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		t, err := template.ParseFiles("web/index.html")
 		if err != nil {
@@ -74,4 +76,25 @@ func csrfToken() string {
 	io.WriteString(h, "MySup9erSecureSalt*/45+`~jhsFh")
 
 	return fmt.Sprintf("%x", h.Sum(nil))
+}
+
+func Middleware(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path
+	path, _ = strings.CutPrefix(path, "/")
+
+	db, err := postgres.New()
+	if err != nil {
+		handler(w, r)
+
+		return
+	}
+
+	origin, err := db.GetOrigin(path)
+	if err != nil {
+		handler(w, r)
+
+		return
+	}
+
+	http.Redirect(w, r, origin, http.StatusFound)
 }

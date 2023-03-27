@@ -7,7 +7,7 @@ import (
 )
 
 func Handle() {
-	http.HandleFunc("/", web.Handler)
+	http.HandleFunc("/", web.Middleware)
 	http.HandleFunc("/short", web.Short)
 
 	http.HandleFunc("/assets/", web.ServeResource)
