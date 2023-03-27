@@ -9,7 +9,7 @@ import (
 )
 
 func GetShort(w http.ResponseWriter, r *http.Request) {
-	url := r.URL.Query().Get("origin")
+	origin := r.URL.Query().Get("origin")
 
 	db, err := postgres.New()
 	if err != nil {
@@ -23,7 +23,7 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	short, err := db.GetShort(url)
+	short, err := db.GetShort(origin)
 	if err != nil {
 		customErr := types.Error{Err: "not found"}
 
@@ -35,7 +35,7 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res := types.Url{Origin: url, Short: short}
+	res := types.Url{Origin: origin, Short: short}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(res)
 }
