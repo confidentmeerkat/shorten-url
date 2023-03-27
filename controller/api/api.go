@@ -9,8 +9,6 @@ import (
 )
 
 func GetShort(w http.ResponseWriter, r *http.Request) {
-	origin := r.URL.Query().Get("origin")
-
 	db, err := postgres.New()
 	if err != nil {
 		customErr := types.Error{Err: "service unavailable"}
@@ -23,21 +21,25 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	short, err := db.GetShort(origin)
-	if err != nil {
-		customErr := types.Error{Err: "not found"}
+	origin := r.URL.Query().Get("origin")
 
-		w.Header().Add("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(customErr)
+	if origin != "" {
+		shortUrl, err := db.GetShort(origin)
+		if err != nil {
+			customErr := types.Error{Err: "not found"}
 
-		log.Println(err)
+			w.Header().Add("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(customErr)
 
-		return
+			log.Println(err)
+
+			return
+		}
+
+		res := types.Url{Origin: origin, Short: shortUrl}
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(res)
 	}
-
-	res := types.Url{Origin: origin, Short: short}
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(res)
 }
 
 func GetAll(w http.ResponseWriter, r *http.Request) {
