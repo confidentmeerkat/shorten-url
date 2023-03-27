@@ -13,8 +13,10 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 
 	db, err := postgres.New()
 	if err != nil {
+		customErr := types.Error{Err: "service unavailable"}
+
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode("Service Unavailable")
+		json.NewEncoder(w).Encode(customErr)
 
 		log.Println(err)
 
@@ -23,8 +25,10 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 
 	short, err := db.GetShort(url)
 	if err != nil {
+		customErr := types.Error{Err: "not found"}
+
 		w.Header().Add("Content-Type", "application/json")
-		json.NewEncoder(w).Encode("not found")
+		json.NewEncoder(w).Encode(customErr)
 
 		log.Println(err)
 
