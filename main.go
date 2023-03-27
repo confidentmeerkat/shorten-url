@@ -6,13 +6,13 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"urlshort/handlers"
 	"urlshort/handlers/api"
+	"urlshort/handlers/web"
 )
 
 func main() {
-	http.HandleFunc("/", handlers.Handler)
-	http.HandleFunc("/short", handlers.Short)
+	http.HandleFunc("/", web.Handler)
+	http.HandleFunc("/short", web.Short)
 
 	http.HandleFunc("/assets/", serveResource)
 
