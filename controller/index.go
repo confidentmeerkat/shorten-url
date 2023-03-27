@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"html/template"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -16,20 +15,13 @@ type link struct {
 	ShortLink string
 }
 
-func indexHandler() (*template.Template, error) {
-	t, err := template.ParseFiles("view/index.html")
-	if err != nil {
-		return nil, fmt.Errorf("parsing view file: %v", err)
-	}
-
-	return t, nil
-}
-
 func Handler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		t, err := indexHandler()
+		t, err := template.ParseFiles("view/index.html")
 		if err != nil {
-			log.Fatal(err)
+			fmt.Printf("can't parse file")
+
+			return
 		}
 
 		token := csrfToken()
@@ -39,15 +31,20 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 			Value: token,
 		})
 
-		sLink := ""
-		shortLink, err := r.Cookie("shortLink")
-		if err == nil {
-			sLink = shortLink.Value
-			shortLink.MaxAge = 0
-			shortLink.Value = ""
-			http.SetCookie(w, shortLink)
+		short := ""
+		shortLink, _ := r.Cookie("shortLink")
+
+		if shortLink != nil {
+			short = shortLink.Value
+
+			http.SetCookie(w, &http.Cookie{
+				Name:   "shortLink",
+				MaxAge: -1,
+			})
+
 		}
-		l := link{Token: token, ShortLink: sLink}
+
+		l := link{Token: token, ShortLink: short}
 		t.Execute(w, l)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
