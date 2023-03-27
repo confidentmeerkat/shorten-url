@@ -1,7 +1,6 @@
 package web
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -26,8 +25,6 @@ func Short(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		fmt.Println("token: ", token)
-		fmt.Println("cookie: ", cToken.Value)
 		if cToken.Value == token {
 			u := template.HTMLEscapeString(r.FormValue("url"))
 			_, err := url.ParseRequestURI(u)
@@ -44,8 +41,6 @@ func Short(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			fmt.Println(u)
-
 			db, err := postgres.New()
 			if err != nil {
 				log.Println(err)
@@ -59,8 +54,6 @@ func Short(w http.ResponseWriter, r *http.Request) {
 
 				return
 			}
-
-			fmt.Println("connected")
 
 			short, err := db.GetShort(u)
 			if err != nil {
@@ -79,8 +72,6 @@ func Short(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 
-			fmt.Println("right token")
-
 			short = os.Getenv("SHORTENER_DOMAIN") + "/" + short
 
 			http.SetCookie(w, &http.Cookie{
@@ -89,7 +80,7 @@ func Short(w http.ResponseWriter, r *http.Request) {
 			})
 			http.Redirect(w, r, "/", http.StatusFound)
 		} else {
-			fmt.Println("wrong token")
+			log.Println("wrong token")
 
 			http.SetCookie(w, &http.Cookie{
 				Name:  "status",
