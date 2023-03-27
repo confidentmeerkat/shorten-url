@@ -80,6 +80,8 @@ func Short(w http.ResponseWriter, r *http.Request) {
 
 			fmt.Println("right token")
 
+			short = "http://localhost:8080/" + short
+
 			http.SetCookie(w, &http.Cookie{
 				Name:  "shortLink",
 				Value: short,
