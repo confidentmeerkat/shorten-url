@@ -35,6 +35,8 @@ func serveResource(w http.ResponseWriter, req *http.Request) {
 		contentType = "image/png"
 	} else if strings.HasSuffix(path, ".jpg") {
 		contentType = "image/jpg"
+	} else if strings.HasSuffix(path, ".svg") {
+		contentType = "image/svg"
 	} else if strings.HasSuffix(path, ".js") {
 		contentType = "text/javascript"
 	} else {
