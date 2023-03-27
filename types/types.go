@@ -1,6 +1,6 @@
 package types
 
-type Url struct {
+type URL struct {
 	Origin string `json:"origin"`
 	Short  string `json:"short"`
 }

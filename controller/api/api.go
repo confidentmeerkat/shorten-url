@@ -37,7 +37,7 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		res := types.Url{Origin: origin, Short: shortUrl}
+		res := types.URL{Origin: origin, Short: shortUrl}
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(res)
@@ -52,7 +52,7 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		res := types.Url{Origin: originURL, Short: short}
+		res := types.URL{Origin: originURL, Short: short}
 
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(res)

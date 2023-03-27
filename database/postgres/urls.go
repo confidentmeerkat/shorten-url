@@ -58,8 +58,8 @@ func (p *psql) GetOrigin(short string) (string, error) {
 	return res, nil
 }
 
-func (p *psql) GetAll() ([]types.Url, error) {
-	url := []types.Url{}
+func (p *psql) GetAll() ([]types.URL, error) {
+	url := []types.URL{}
 
 	allQuery := "SELECT origin, short FROM urls"
 
@@ -76,7 +76,7 @@ func (p *psql) GetAll() ([]types.Url, error) {
 			return nil, err
 		}
 
-		u := types.Url{
+		u := types.URL{
 			Origin: origin,
 			Short:  short,
 		}
