@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"os"
+	"urlshort/configs"
 	"urlshort/database/postgres"
 )
 
@@ -72,7 +72,7 @@ func Short(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 
-			short = os.Getenv("SHORTENER_DOMAIN") + "/" + short
+			short = configs.Domain + "/" + short
 
 			http.SetCookie(w, &http.Cookie{
 				Name:  "shortLink",
