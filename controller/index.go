@@ -49,6 +49,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 		l := link{Token: token, ShortLink: sLink}
 		t.Execute(w, l)
+	} else {
+		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
 
