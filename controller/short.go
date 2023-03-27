@@ -15,6 +15,11 @@ func Short(w http.ResponseWriter, r *http.Request) {
 
 		cToken, err := r.Cookie("csrfToken")
 		if err != nil {
+			http.SetCookie(w, &http.Cookie{
+				Name:  "status",
+				Value: "no CSRF token",
+			})
+
 			http.Redirect(w, r, "/", http.StatusFound)
 
 			return
@@ -26,30 +31,55 @@ func Short(w http.ResponseWriter, r *http.Request) {
 			u := template.HTMLEscapeString(r.FormValue("url"))
 			_, err := url.ParseRequestURI(u)
 			if err != nil {
-				log.Fatal(err)
+				log.Println(err)
+
+				http.SetCookie(w, &http.Cookie{
+					Name:  "status",
+					Value: "no valid URL",
+				})
+
+				http.Redirect(w, r, "/", http.StatusFound)
+
+				return
 			}
 
 			fmt.Println(u)
 
 			db, err := postgres.New()
 			if err != nil {
-				w.WriteHeader(503)
+				log.Println(err)
 
-				log.Fatal(err)
+				http.SetCookie(w, &http.Cookie{
+					Name:  "status",
+					Value: "service unavailable",
+				})
+
+				http.Redirect(w, r, "/", http.StatusFound)
+
+				return
 			}
+
 			fmt.Println("connected")
 
 			short, err := db.GetShort(u)
 			if err != nil {
 				short, err = db.CreateShort(u, 4)
 				if err != nil {
-					w.WriteHeader(503)
+					log.Println(err)
 
-					log.Fatal(err)
+					http.SetCookie(w, &http.Cookie{
+						Name:  "status",
+						Value: "creating short link failed",
+					})
+
+					http.Redirect(w, r, "/", http.StatusFound)
+
+					return
 				}
 			}
 
 			fmt.Println("right token")
+
 			http.SetCookie(w, &http.Cookie{
 				Name:  "shortLink",
 				Value: short,
@@ -57,6 +87,12 @@ func Short(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusFound)
 		} else {
 			fmt.Println("wrong token")
+
+			http.SetCookie(w, &http.Cookie{
+				Name:  "status",
+				Value: "CSRF token mismatch",
+			})
+
 			http.Redirect(w, r, "/", http.StatusFound)
 		}
 	} else {

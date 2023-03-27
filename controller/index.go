@@ -13,6 +13,7 @@ import (
 type link struct {
 	Token     string
 	ShortLink string
+	Status    string
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +45,20 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 		}
 
-		l := link{Token: token, ShortLink: short}
+		status := ""
+		statusCookie, _ := r.Cookie("status")
+
+		if statusCookie != nil {
+			status = statusCookie.Value
+
+			http.SetCookie(w, &http.Cookie{
+				Name:   "status",
+				MaxAge: -1,
+			})
+
+		}
+
+		l := link{Token: token, ShortLink: short, Status: status}
 		t.Execute(w, l)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)

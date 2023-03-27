@@ -49,10 +49,19 @@
                 </div>
             </div>
 
+            
             <div class="row justify-content-center">
+                {{if .ShortLink}}
                 <div class="col-6 my-3">
-                    <span class="jumbotron justify-content-center"> {{.ShortLink}} </span>
+                  <p>Your shorted link is: <span class="jumbotron justify-content-center"> {{.ShortLink}} </span> </p>
                 </div>
+                {{end}}
+
+                {{if .Status}}
+                <div class="col-6 my-3">
+                   <p>Status: <span class="jumbotron justify-content-center"> {{.Status}} </span> </p>
+                </div>
+                {{end}}
             </div>
         </div>
 
