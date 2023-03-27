@@ -11,12 +11,7 @@ import (
 func GetShort(w http.ResponseWriter, r *http.Request) {
 	db, err := postgres.New()
 	if err != nil {
-		customErr := types.Error{Err: "service unavailable"}
-
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(customErr)
-
-		log.Println(err)
+		handleError(w, err, "service unavailable")
 
 		return
 	}
@@ -27,12 +22,7 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 	if origin != "" {
 		shortUrl, err := db.GetShort(origin)
 		if err != nil {
-			customErr := types.Error{Err: "not found"}
-
-			w.Header().Add("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(customErr)
-
-			log.Println(err)
+			handleError(w, err, "not found")
 
 			return
 		}
@@ -44,10 +34,7 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 	} else if short != "" {
 		originURL, err := db.GetOrigin(short)
 		if err != nil {
-			customErr := types.Error{Err: "not found"}
-
-			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(customErr)
+			handleError(w, err, "not found")
 
 			return
 		}
@@ -67,24 +54,14 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 func GetAll(w http.ResponseWriter, r *http.Request) {
 	db, err := postgres.New()
 	if err != nil {
-		customErr := types.Error{Err: "service unavailable"}
-
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(customErr)
-
-		log.Println(err)
+		handleError(w, err, "service unavailable")
 
 		return
 	}
 
 	url, err := db.GetAll()
 	if err != nil {
-		customErr := types.Error{Err: "not found"}
-
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(customErr)
-
-		log.Println(err)
+		handleError(w, err, "not found")
 
 		return
 	}
@@ -92,4 +69,13 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(url)
 
+}
+
+func handleError(w http.ResponseWriter, err error, customError string) {
+	customErr := types.Error{Err: customError}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(customErr)
+
+	log.Println(err)
 }
