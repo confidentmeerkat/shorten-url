@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"urlshort/database/postgres"
 )
 
@@ -80,7 +81,7 @@ func Short(w http.ResponseWriter, r *http.Request) {
 
 			fmt.Println("right token")
 
-			short = "http://localhost:8080/" + short
+			short = os.Getenv("SHORTENER_DOMAIN") + "/" + short
 
 			http.SetCookie(w, &http.Cookie{
 				Name:  "shortLink",
