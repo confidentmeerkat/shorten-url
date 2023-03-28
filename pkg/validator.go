@@ -1,3 +1,4 @@
+// Package pkg contains the program's functionalities.
 package pkg
 
 import (
@@ -5,6 +6,7 @@ import (
 	"regexp"
 )
 
+// IsValidURL validates the given URL.
 func IsValidURL(s string) bool {
 	_, err := url.ParseRequestURI(s)
 	if err != nil {
