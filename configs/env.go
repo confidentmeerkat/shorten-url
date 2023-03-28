@@ -1,3 +1,4 @@
+// Package configs store the program's configurations.
 package configs
 
 import "os"
