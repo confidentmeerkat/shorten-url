@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"net/url"
 	"urlshort/configs"
 	"urlshort/database/postgres"
+	"urlshort/pkg"
 	"urlshort/types"
 )
 
@@ -31,9 +31,8 @@ func CreateShort(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = url.ParseRequestURI(link.Origin)
-	if err != nil {
-		handleError(w, err, "not a valid URL")
+	if !pkg.IsValidURL(link.Origin) {
+		handleError(w, err, "no valid URL")
 
 		return
 	}

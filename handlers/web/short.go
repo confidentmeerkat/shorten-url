@@ -4,9 +4,9 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"net/url"
 	"urlshort/configs"
 	"urlshort/database/postgres"
+	"urlshort/pkg"
 )
 
 func Short(w http.ResponseWriter, r *http.Request) {
@@ -27,8 +27,8 @@ func Short(w http.ResponseWriter, r *http.Request) {
 
 		if cToken.Value == token {
 			u := template.HTMLEscapeString(r.FormValue("url"))
-			_, err := url.ParseRequestURI(u)
-			if err != nil {
+
+			if !pkg.IsValidURL(u) {
 				log.Println(err)
 
 				http.SetCookie(w, &http.Cookie{
