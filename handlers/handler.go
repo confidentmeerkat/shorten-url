@@ -1,3 +1,4 @@
+// Package handlers serves HTTP requests.
 package handlers
 
 import (
@@ -6,6 +7,7 @@ import (
 	"urlshort/handlers/web"
 )
 
+// Handle handles HTTP routes.
 func Handle() {
 	http.HandleFunc("/", web.Middleware)
 	http.HandleFunc("/short", web.Short)
