@@ -1,3 +1,4 @@
+// Package postgres implements a postgres database functionalities.
 package postgres
 
 import (
@@ -9,6 +10,7 @@ import (
 	"urlshort/types"
 )
 
+// CreateShort returns a created short link and an error.
 func (p *psql) CreateShort(url string, length int) (string, error) {
 	short := shorter(length)
 
@@ -24,6 +26,7 @@ func (p *psql) CreateShort(url string, length int) (string, error) {
 	return short, nil
 }
 
+// GetShort returns the given URL's short link and an error.
 func (p *psql) GetShort(url string) (string, error) {
 	var short string
 
@@ -41,6 +44,7 @@ func (p *psql) GetShort(url string) (string, error) {
 	return short, nil
 }
 
+// GetOrigin returns the given short link's original URL and an error.
 func (p *psql) GetOrigin(short string) (string, error) {
 	var res string
 
@@ -58,6 +62,7 @@ func (p *psql) GetOrigin(short string) (string, error) {
 	return res, nil
 }
 
+// GetAll returns all URLs and their short links.
 func (p *psql) GetAll() ([]types.URL, error) {
 	url := []types.URL{}
 
@@ -87,6 +92,7 @@ func (p *psql) GetAll() ([]types.URL, error) {
 	return url, nil
 }
 
+// shorter returns a random string with the given length.
 func shorter(length int) string {
 	charset := "abcdefghijklmnopqrstuvwxyz" +
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789"
@@ -100,5 +106,4 @@ func shorter(length int) string {
 	}
 
 	return string(link)
-
 }
