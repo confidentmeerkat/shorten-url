@@ -1,3 +1,4 @@
+// Package web serves web page requests.
 package web
 
 import (
@@ -93,5 +94,4 @@ func Short(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		w.Write([]byte("Method is not allowed"))
 	}
-
 }

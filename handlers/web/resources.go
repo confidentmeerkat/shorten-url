@@ -1,3 +1,4 @@
+// Package web serves web page requests.
 package web
 
 import (
