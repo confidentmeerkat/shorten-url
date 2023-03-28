@@ -1,3 +1,4 @@
+// Package database implements a way to work with databases.
 package database
 
 import (
