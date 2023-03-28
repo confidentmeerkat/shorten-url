@@ -1,3 +1,4 @@
+// Package types contains the most used types.
 package types
 
 type URL struct {
