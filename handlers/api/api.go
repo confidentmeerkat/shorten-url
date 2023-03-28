@@ -1,3 +1,4 @@
+// Package api serves API requests.
 package api
 
 import (
@@ -14,6 +15,7 @@ type create struct {
 	Origin string
 }
 
+// CreateShort gets a URL in JSON on the POST method and creates a short link.
 func CreateShort(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -63,6 +65,7 @@ func CreateShort(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(res)
 }
 
+// GetShort returns a short link or original URL in JSON format to the user.
 func GetShort(w http.ResponseWriter, r *http.Request) {
 	db, err := postgres.New()
 	if err != nil {
@@ -106,6 +109,7 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// GetAll returns all URLs and their short link in JSON format to the user.
 func GetAll(w http.ResponseWriter, r *http.Request) {
 	db, err := postgres.New()
 	if err != nil {
@@ -123,9 +127,9 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(url)
-
 }
 
+// handleError creates a custom error in JSON format.
 func handleError(w http.ResponseWriter, err error, customError string) {
 	customErr := types.Error{Err: customError}
 
