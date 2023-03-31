@@ -10,6 +10,8 @@ import (
 	"urlshort/pkg"
 )
 
+// Short handles POST requests from the index web page,
+// and creates a short link.
 func Short(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		token := r.FormValue("token")

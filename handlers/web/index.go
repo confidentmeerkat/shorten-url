@@ -19,7 +19,7 @@ type link struct {
 	Status    string
 }
 
-// handler serves index web page.
+// handler serves the index web page.
 func handler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		t, err := template.ParseFiles("web/index.html")
@@ -70,7 +70,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// csrfToken returns a random token.
+// csrfToken returns a random CSRF token.
 func csrfToken() string {
 	h := md5.New()
 	crutime := time.Now().Unix()
@@ -82,8 +82,8 @@ func csrfToken() string {
 }
 
 // Middleware checks if requested URL is a short link or not,
-// if it is, it redirects to original URL,
-// if it's not, it serves index web page.
+// if it is, it redirects to the original URL,
+// if it's not, it serves the index web page.
 func Middleware(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	path, _ = strings.CutPrefix(path, "/")

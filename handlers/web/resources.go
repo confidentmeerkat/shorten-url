@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// ServeResource handles resources like CSS, JS, and images.
 func ServeResource(w http.ResponseWriter, req *http.Request) {
 	path := req.URL.Path
 	path, _ = strings.CutPrefix(path, "/")
