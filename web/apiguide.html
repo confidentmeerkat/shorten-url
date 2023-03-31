@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>URL Shortner - API Guide</title>
+
+        <link href="/assets/img/favicon.ico" rel="icon" type="image/x-icon">       
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/assets/css/bootstrap-icons.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg bg-light">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/">
+                <img src="/assets/img/logo.svg" alt="url-shor" width="30" height="24">
+                URL Short</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                  <a class="nav-link" aria-current="page" href="/">Home</a>
+                  <a class="nav-link active" href="/api">API Guide</a>
+                </div>
+              </div>
+            </div>
+          </nav>
+          
+        <div class="container my-3">
+            <div class="row justify-content-center">
+                <div class="display-5 my-2 text-center">API Guide</div>
+                <p>With this API you can create a new short link, get a short link, get an original URL, or get all URLs and their short links.</p>
+                
+                <div>
+                    <p class="display-6"><strong>Create a short link:</strong></p>
+                    <p>For creating a new short link, you should send a <code>POST</code> request to <code>/api/create</code> containing a <code>JSON</code> with an <code>origin</code> Key and the URL you want to be shortened. <br><strong>Notice:</strong> you must send a URL with the schemes <code>http://</code> or <code>https://</code> anything else doesn't work.
+                        <br><br>Example:</p>
+                    <pre>{"origin": "https://google.com"}</pre>
+                </div>
+                
+                <div>
+                    <p class="display-6"><strong>Get an existing short link:</strong></p>
+                    <p>
+                        You should send a <code>Get</code> request to <code>/api/get</code> containing a query with <code>origin</code> as the key and URL as the value.
+                        <br><br>Example:
+                    </p>
+                    <pre>example.com/api/get?origin=https://google.com</pre>
+                </div>
+
+                <div>
+                    <p class="display-6"><strong>Get an original link:</strong></p>
+                    <p>
+                        You can send a shortened link and get its original link, for this purpose you should send a <code>Get</code> request to <code>/api/get</code> containing a query with <code>short</code> as the key and shortened link as the value.
+                        <br><br>Example:
+                    </p>
+                    <pre>example.com/api/get?short=Iv1a</pre>
+                </div>
+
+                <div>
+                    <p class="display-6"><strong>Get all URLs and their short links:</strong></p>
+                    <p>
+                        To get all URLs and their short links, you need to just visit the <code>/api/all</code> on the <code>GET</code> method.
+                        <br><br>Example:
+                    </p>
+                    <pre>example.com/api/all</pre>
+                </div>
+            </div>
+        </div>
+
+        <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

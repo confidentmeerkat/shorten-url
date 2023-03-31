@@ -11,6 +11,7 @@ import (
 func Handle() {
 	http.HandleFunc("/", web.Middleware)
 	http.HandleFunc("/short", web.ShortHandler)
+	http.HandleFunc("/api", web.APIGuide)
 
 	http.HandleFunc("/assets/", web.ServeResource)
 

@@ -22,7 +22,7 @@ func ServeResource(w http.ResponseWriter, req *http.Request) {
 	} else if strings.HasSuffix(path, ".jpg") {
 		contentType = "image/jpg"
 	} else if strings.HasSuffix(path, ".svg") {
-		contentType = "image/svg"
+		contentType = "image/svg+xml"
 	} else if strings.HasSuffix(path, ".js") {
 		contentType = "text/javascript"
 	} else {
