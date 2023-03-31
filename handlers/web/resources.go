@@ -14,6 +14,7 @@ func ServeResource(w http.ResponseWriter, req *http.Request) {
 	path, _ = strings.CutPrefix(path, "/")
 
 	var contentType string
+
 	if strings.HasSuffix(path, ".css") {
 		contentType = "text/css"
 	} else if strings.HasSuffix(path, ".png") {
@@ -29,14 +30,15 @@ func ServeResource(w http.ResponseWriter, req *http.Request) {
 	}
 
 	f, err := os.Open(path)
-
-	if err == nil {
-		defer f.Close()
-		w.Header().Add("Content-Type", contentType)
-
-		br := bufio.NewReader(f)
-		br.WriteTo(w)
-	} else {
+	if err != nil {
 		w.WriteHeader(404)
+
+		return
 	}
+	defer f.Close()
+
+	w.Header().Add("Content-Type", contentType)
+
+	br := bufio.NewReader(f)
+	br.WriteTo(w)
 }
