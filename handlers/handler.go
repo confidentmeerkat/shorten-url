@@ -10,7 +10,7 @@ import (
 // Handle handles HTTP routes.
 func Handle() {
 	http.HandleFunc("/", web.Middleware)
-	http.HandleFunc("/short", web.Short)
+	http.HandleFunc("/short", web.ShortHandler)
 
 	http.HandleFunc("/assets/", web.ServeResource)
 
