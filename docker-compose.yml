@@ -1,0 +1,43 @@
+version: "1.0"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15.2-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=toor
+      - POSTGRES_DB=shortener
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    volumes:
+      - ./configs/init.sql:/docker-entrypoint-initdb.d/shortener-init.sql
+      - urlshort-dbdata:/var/lib/postgresql/data
+
+  go:
+    container_name: go
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=toor
+      - POSTGRES_DB=shortener
+      - POSTGRES_SSL_MODE=disable
+      - SHORTENER_DOMAIN=http://localhost:8080
+    ports:
+      - "8080:8080"
+    build:
+      context: .
+    depends_on:
+    - "postgres"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  urlshort-dbdata:
