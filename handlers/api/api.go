@@ -45,6 +45,7 @@ func CreateShort(w http.ResponseWriter, r *http.Request) {
 
 		return
 	}
+	defer db.Close()
 
 	res := types.URL{}
 
@@ -73,6 +74,7 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 
 		return
 	}
+	defer db.Close()
 
 	origin := r.URL.Query().Get("origin")
 	short := r.URL.Query().Get("short")
@@ -117,6 +119,7 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 
 		return
 	}
+	defer db.Close()
 
 	url, err := db.GetAll()
 	if err != nil {

@@ -19,6 +19,7 @@ func Middleware(w http.ResponseWriter, r *http.Request) {
 
 		return
 	}
+	defer db.Close()
 
 	origin, err := db.GetOrigin(path)
 	if err != nil {

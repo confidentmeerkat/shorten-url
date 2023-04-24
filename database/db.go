@@ -10,4 +10,5 @@ type DB interface {
 	GetShort(url string) (string, error)
 	GetOrigin(short string) (string, error)
 	GetAll() ([]types.URL, error)
+	Close()
 }

@@ -21,8 +21,6 @@ func (p *psql) CreateShort(url string, length int) (string, error) {
 		return "", err
 	}
 
-	defer p.db.Close()
-
 	return short, nil
 }
 

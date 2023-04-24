@@ -75,6 +75,7 @@ func ShortHandler(w http.ResponseWriter, r *http.Request) {
 
 		return
 	}
+	defer db.Close()
 
 	short, err := db.GetShort(u)
 	if err != nil {

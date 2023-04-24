@@ -36,3 +36,7 @@ func New() (database.DB, error) {
 
 	return &psql{db: db}, nil
 }
+
+func (p *psql) Close() {
+	p.db.Close()
+}
