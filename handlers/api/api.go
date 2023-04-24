@@ -68,6 +68,13 @@ func CreateShort(w http.ResponseWriter, r *http.Request) {
 
 // GetShort returns a short link or original URL in JSON format to the user.
 func GetShort(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		w.Write([]byte("Method is not allowed"))
+
+		return
+	}
+
 	db, err := postgres.New()
 	if err != nil {
 		handleError(w, err, "service unavailable")
@@ -113,6 +120,13 @@ func GetShort(w http.ResponseWriter, r *http.Request) {
 
 // GetAll returns all URLs and their short link in JSON format to the user.
 func GetAll(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		w.Write([]byte("Method is not allowed"))
+
+		return
+	}
+
 	db, err := postgres.New()
 	if err != nil {
 		handleError(w, err, "service unavailable")
