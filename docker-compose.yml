@@ -8,6 +8,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=toor
       - POSTGRES_DB=shortener
+      - POSTGRES_INITDB_ARGS="--auth-host=scram-sha-256"
     ports:
       - "5432:5432"
     networks:
