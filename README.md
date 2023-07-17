@@ -16,10 +16,7 @@ For using urlshort with docker, you should have installed `docker` and `docker-c
 
 After that clone urlshort repository:
 
-```
-https://github.com/barahouei/urlshort.git
-```
- Then in the urlshort directory, use the following command:
+Then in the urlshort directory, use the following command:
 
 ```
 docker-compose up
@@ -32,10 +29,6 @@ For using urlshort with go, you should have installed `go` and `postgresql`.
 After that, follow the below instructions:
 
 Clone urlshort repository:
-
-```
-https://github.com/barahouei/urlshort.git
-```
 
 Go to the urlshort directory.
 
